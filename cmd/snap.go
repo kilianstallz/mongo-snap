@@ -16,8 +16,19 @@ var snapCommand = &cobra.Command{
 		db, _ := cmd.Flags().GetString("db")
 		uri, _ := cmd.Flags().GetString("uri")
 		out, _ := cmd.Flags().GetString("out")
+		exclude, _ := cmd.Flags().GetStringSlice("exclude")
 
-		dumpCmd := exec.Command("mongodump", "--uri="+uri, "--db="+db, "--out="+out)
+		excludeArgs := []string{
+			"--uri=" + uri,
+			"--db=" + db,
+			"--out=" + out,
+		}
+
+		for _, s := range exclude {
+			excludeArgs = append(excludeArgs, "--excludeCollection="+s)
+		}
+
+		dumpCmd := exec.Command("mongodump", excludeArgs...)
 		dumpCmd.Stdout = os.Stdout
 		dumpCmd.Stderr = os.Stderr
 
@@ -33,4 +44,5 @@ func init() {
 	snapCommand.PersistentFlags().String("db", "", "The mongodb database to get a snapshot from.")
 	snapCommand.PersistentFlags().String("out", "dump", "The output directory.")
 	snapCommand.PersistentFlags().String("uri", "mongodb://localhost:27017", "The mongodb connection string.")
+	snapCommand.PersistentFlags().StringSlice("exclude", []string{}, "Collections to exclude")
 }
