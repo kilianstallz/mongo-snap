@@ -1,5 +1,6 @@
 # mongo-snap
-CLI Tool wrapper around the mongo-tools cli.
+Wrapper around the mongo-tools-cli.
+The vision is to provide a simpler cli interface and provide a snapshot/backup tool to integrate into any CI/CD process.
 
 ## Usage
 
