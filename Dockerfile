@@ -1,8 +1,15 @@
-FROM ubuntu:xenial
+FROM golang:1.16-alpine
 
-ENV URL=https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2004-x86_64-100.3.1.deb
+WORKDIR $GOPATH/src/github.com/kilianstallt/mongo-snap
 
-RUN curl ${URL} --output=mongotools.deb
+RUN apk add mongodb-tools
 
-RUN sudo apt install ./mongotools.deb
+COPY . .
 
+RUN go mod download
+
+RUN go install .
+
+WORKDIR /
+
+ENTRYPOINT [ "mongo-snap" ]

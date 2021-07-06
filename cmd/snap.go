@@ -12,7 +12,6 @@ var snapCommand = &cobra.Command{
 	Use:   "snap",
 	Short: "Get a snapshot (dump) of your database",
 	Run: func(cmd *cobra.Command, args []string) {
-		// uri, _ := cmd.Flags().GetString("uri")
 		db, _ := cmd.Flags().GetString("db")
 		uri, _ := cmd.Flags().GetString("uri")
 		out, _ := cmd.Flags().GetString("out")
